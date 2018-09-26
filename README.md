@@ -8,7 +8,9 @@
 2. Download and unzip Zookeeper 3.4.10. The default Zookeeper package comes with a sample cfg file in the conf folder. Rename the file to zoo.cfg and run bin/zkServer.sh start. This should start zookeeper on the default port 2181. Kafka requires zookeeper to store configuration.
 3. Download and unzip Kafka 0.11 and run bin/kafka-server-start.sh config/server.properties. The server.properties has the port for zookeeper and you need to re-confirm that it points to the zookeeper port.
 4. Download and unzip hadoop 2.61. Update the hadoop_unzip_location/etc/hadoop/yarn-site.yml with the below contents. The below config allows YARN to use the swap memory and not kill containers due to lack of physical memory.
-`
+
+
+```
 <configuration>
   <property>
     <name>yarn.resourcemanager.scheduler.class</name>
@@ -23,7 +25,7 @@
     <value>86400</value>
   </property>
 </configuration>
-`
+```
 5. Execute the following to start the YARN resource manager and node manager
    sbin/yarn-daemon.sh start resourcemanager
    sbin/yarn-daemon.sh start nodemanager
