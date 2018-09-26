@@ -238,7 +238,6 @@ under the License.
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
-        <version>0.9</version>
         <executions>
           <execution>
             <phase>test</phase>
