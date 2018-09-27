@@ -5,9 +5,9 @@
 ## Pre-requisites to get the stack installed (ahead of trying the source in this repo)
 
 1. Install jdk 8
-2. Download and unzip Zookeeper 3.4.10. The default Zookeeper package comes with a sample cfg file in the conf folder. Rename the file to zoo.cfg and run bin/zkServer.sh start. This should start zookeeper on the default port 2181. Kafka requires zookeeper to store configuration.
-3. Download and unzip Kafka 0.11 and run bin/kafka-server-start.sh config/server.properties. The server.properties has the port for zookeeper and you need to re-confirm that it points to the zookeeper port.
-4. Download and unzip hadoop 2.61. Update the hadoop_unzip_location/etc/hadoop/yarn-site.yml with the below contents. The below config allows YARN to use the swap memory and not kill containers due to lack of physical memory.
+2. (Download)[https://archive.apache.org/dist/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz] and unzip Zookeeper 3.4.10. The default Zookeeper package comes with a sample cfg file in the conf folder. Rename the file to zoo.cfg and run bin/zkServer.sh start. This should start zookeeper on the default port 2181. Kafka requires zookeeper to store configuration.
+3. (Download)[https://archive.apache.org/dist/kafka/0.11.0.1/kafka_2.11-0.11.0.1.tgz] and unzip Kafka 0.11 and run bin/kafka-server-start.sh config/server.properties. The server.properties has the port for zookeeper and you need to re-confirm that it points to the zookeeper port.
+4. (Download)[https://archive.apache.org/dist/hadoop/core/hadoop-2.6.1/hadoop-2.6.1.tar.gz] and unzip hadoop 2.61. Update the hadoop_unzip_location/etc/hadoop/yarn-site.yml with the below contents. The below config allows YARN to use the swap memory and not kill containers due to lack of physical memory.
 
 
 ```
@@ -43,7 +43,7 @@ Samza concepts are well explained in the Samza documentation, but here is a quic
 - The sample job that is included in this trial has a stream job that just outputs the message to an output topic, but you can enhance the sample to include your processing.
 
 ## How to run the sample
-**The pre-requisites have to be complete ahead of running the sample**
+**The pre-requisite steps have to be complete ahead of running the sample**
 
 - Start Zookeeper, Kafka, YARN
 - Clone this repo git clone https://github.com/mathewjpallan/SamzaTrial.git
@@ -62,4 +62,14 @@ Samza concepts are well explained in the Samza documentation, but here is a quic
 - You can now change the input and output topics and also include processing that you want to include. The input topic needs to be updated in the event-validator.properties and the output/processing customization goes into the EventValidatorTask.
 
 ## Performance test summary
-On a workstation (4 cores, 16 GB RAM, with SSD running Ubuntu 16) this job was giving a throughput of a 100K messages processed in a second with a single container utilizing around 50% of 4 cores. By increasing the containers to 3, it was giving a throughput of 150K messages a second and CPU was maxing out which means that it would have given better throughput if there was spare CPU.
+
+The perf test was run to explore SAMZA behavior on increasing the number of containers and also to get a sense of the rate of processing that can be achieved.
+The events-in topic was input with 50 million messages using the kafka-producer-perf-test.sh. And then this samza job was run to stream all the messages from the events-in topic to the events-valid topic.
+
+### Results
+On a workstation (4 CPU cores, 16 GB RAM, with SSD running Ubuntu 16) this job was giving a throughput of a 100K messages processed in a second with a single container utilizing around 50% of all cores. By increasing the containers to 3, it was giving a throughput of 150K messages a second and CPU was maxing out which means that it would have given better throughput if there was spare CPU.
+
+## What next
+- Explore the yarn variables to see how to tweak resource use by the jobs
+- Try stream joins & windowing in SAMZA
+- Try samza metrics collection
