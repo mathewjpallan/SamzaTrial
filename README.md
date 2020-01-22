@@ -57,7 +57,7 @@ Samza concepts are well explained in the Samza documentation, but here is a quic
 - The exec.sh generates one artefact which contains a single job. This job is submitted to YARN and it spawns a single container that contains 6 (as we created topic events-in with 6 partitions) StreamTask instances. You can change the number of containers for more throughput (Samza will distribute the streamtask instances across containers) by updating the yarn.container.count variable in the event-validator.properties
 - The job should show up (after a minute or so) on the YARN portal in RUNNING state at http://localhost:8088/cluster. The final state will be UNDEFINED and that is fine.
 - Use the console consumer to see if the events from events-in topic are being streamed to the events-valid topic
-        bin/kafka-console-consumer.sh  --zookeeper localhost:21000 --topic events-valid --from-beginning
+        bin/kafka-console-consumer.sh  --zookeeper localhost:2181 --topic events-valid --from-beginning
 - To stop the job, execute ./exec.sh stop
 - You can now change the input and output topics and also include processing that you want to include. The input topic needs to be updated in the event-validator.properties and the output/processing customization goes into the EventValidatorTask.
 
